@@ -4,7 +4,7 @@ from queue import Queue, PriorityQueue
 import time
 
 # returns a list of page titles, the path
-def wikiGameDFS(initialPageTitle, destinationPageTitle):
+def wikiGameBFS(initialPageTitle, destinationPageTitle):
 
     # if source and destination are the same
     if initialPageTitle == destinationPageTitle:
