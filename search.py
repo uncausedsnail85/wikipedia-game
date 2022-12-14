@@ -39,7 +39,7 @@ def wikiGameBFS(initialPageTitle, destinationPageTitle):
 
         # Test if link is destination
         if (curr_node[0] == destinationPageTitle): return curr_node[1]
-        print("curr_node: ", curr_node)
+        # print("curr_node: ", curr_node)
 
         # Get links in page as successors
         try:

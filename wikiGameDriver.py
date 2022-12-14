@@ -1,21 +1,33 @@
-import search
+from search import *
 import time
+from bidirectionalBFS import *
 
 startTime = time.time()
 startPage = "Everything Everywhere All at Once"
-destPage = "Nihilism"
+destPage = "Japanese economic miracle"
 print("Searching for path between", startPage, "and", destPage)
 
+# doesnt work
+# startPage = "Everything Everywhere All at Once"
+# destPage = "Royal Corps of Eritrean Colonial Troops"
+
 # print("Starting a BFS search")
-# finalPath  = search.wikiGameBFS(startPage, destPage)
+# finalPath  = .wikiGameBFS(startPage, destPage)
 # timeTaken = round(time.time()-startTime, 1)
 # print("The found shortest path between", startPage, "and", destPage, "is: ")
 # print(finalPath)
 # print("It took", timeTaken, "seconds")
 
-print("Starting a Sstar search")
-print(search.wikiGameAStar(startPage, destPage, search.numberOfSameCategoriesHeuristic))
+# print("Starting a Astar search")
+# print(.wikiGameAStar(startPage, destPage, numberOfSameCategoriesHeuristic))
+# timeTaken = round(time.time()-startTime, 1)
+# print("The found shortest path between", startPage, "and", destPage, "is: ")
+# # print(finalPath)
+# print("It took", timeTaken, "seconds")
+
+print("Starting a biBFS search")
+finalPath  = wikiGameBidirectionalBFS(startPage, destPage)
 timeTaken = round(time.time()-startTime, 1)
 print("The found shortest path between", startPage, "and", destPage, "is: ")
-# print(finalPath)
+print(finalPath)
 print("It took", timeTaken, "seconds")
