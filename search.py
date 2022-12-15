@@ -23,7 +23,7 @@ def wikiGameBFS(initialPageTitle, destinationPageTitle):
 
     # loop forever until: queue is empty or destination page is reached
     while(True):
-        print("elapsed time: ", round(time.time()-start, 1))
+        # print("elapsed time: ", round(time.time()-start, 1))
 
         # if queue is empty, no further 
         if frontier.empty(): return None
@@ -45,7 +45,8 @@ def wikiGameBFS(initialPageTitle, destinationPageTitle):
         try:
             succList = wikipedia.page(curr_node[0], auto_suggest=False).links
         except Exception as e:
-            print(e)
+            # print(e)
+            pass
 
         # add each link into queue
         # And check if link is already in explored set to
@@ -64,7 +65,7 @@ def wikiGameBFS(initialPageTitle, destinationPageTitle):
 # leading to an almost tree like structure (accurately
 # it is a partially ordered set). By using the distance
 # to the target category, we can use it as a heuristic.
-def numberOfSameCategoriesHeuristic(pageTitle, destinationCategories):
+def shrotestDistanceCategoriesHeuristic(pageTitle, destinationCategories):
     try:
         sourceCats = wikipedia.page(pageTitle, auto_suggest=False).categories
     except Exception as e:
@@ -88,6 +89,17 @@ def numberOfSameCategoriesHeuristic(pageTitle, destinationCategories):
     # print("Done, number of matches:", numberMatches)
     return numberMatches
 
+# Returns number of intersecting categories, normalized over 1.
+def numberOfSameCategoriesHeuristic(pageTitle, destinationCategories):
+    try:
+        sourceCats = wikipedia.page(pageTitle, auto_suggest=False).categories
+    except Exception as e:
+        # print(e)
+        return sys.maxsize
+    destCats = destinationCategories.copy()
+    common_len = len(set(sourceCats) & set(destCats))
+    return 1 - common_len/len(destCats)
+
 def nullHeuristic(pageTitle, destinationTitle):
     return 0 
 
@@ -102,7 +114,6 @@ def wikiGameAStar(initialPageTitle, destinationPageTitle, heuristic):
 
     # start timer, ideally should be commented out
     start = time.time()
-    numberOfExpansions = 0
 
     # the search node of a A* search graph
     initialNode = (initialPageTitle, [initialPageTitle])
@@ -114,14 +125,15 @@ def wikiGameAStar(initialPageTitle, destinationPageTitle, heuristic):
 
     # loop forever until: queue is empty or destination page is reached
     while(True):
-        print("elapsed time: ", round(time.time()-start, 1))
+        # print("elapsed time: ", round(time.time()-start, 1))
 
         # if queue is empty, no further 
         if frontier.empty(): return None
         frontierPop = frontier.get()
-        numberOfExpansions =+ 1
         curr_node = frontierPop[1]
 
+        # print("curr_node: ", curr_node)
+        
         # If a link has been explored before, continue.
         # This happens when a link is added multiple times to the
         # queue by different pages.
@@ -132,16 +144,15 @@ def wikiGameAStar(initialPageTitle, destinationPageTitle, heuristic):
 
         # Test if link is destination
         if (curr_node[0] == destinationPageTitle): 
-            print("NUMBER OF NODES EXPANDED:", numberOfExpansions)
             return curr_node[1]
-        print("frontier.get()", frontierPop)
-        print("curr_node: ", curr_node)
 
         # Get links in page as successors
         try:
             succList = wikipedia.page(curr_node[0], auto_suggest=False).links
         except Exception as e:
-            print(e)
+            # print(e)
+            pass
+
 
         # add each link into queue
         # And check if link is already in explored set to

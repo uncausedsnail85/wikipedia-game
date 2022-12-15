@@ -74,7 +74,8 @@ def wikiGameBidirectionalBFS(initialPageTitle, destinationPageTitle):
                 try:
                     succList = wikipedia.page(curr_node[0], auto_suggest=False).links
                 except Exception as e:
-                    print(e)
+                    # print(e)
+                    pass
 
                 # add each link into queue
                 # And check if link is already in explored set to
@@ -120,7 +121,8 @@ def wikiGameBidirectionalBFS(initialPageTitle, destinationPageTitle):
                 try:
                     succList = wikipedia.page(curr_node[0], auto_suggest=False).links
                 except Exception as e:
-                    print(e)
+                    # print(e)
+                    pass
 
                 # add each link into queue
                 # And check if link is already in explored set to
